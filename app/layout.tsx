@@ -22,8 +22,14 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "PolyHub - Decentralized Prediction Markets",
-  description: "Trade on future outcomes with transparent blockchain-powered prediction markets",
-  generator: "v0.app",
+  description: "Trade on future outcomes with transparent blockchain-powered prediction markets",  
+  icons: {
+    icon: [
+      {
+        url: "/favicon.jpg",
+        media: "(prefers-color-scheme: light)",
+      } 
+    ],
 }
 
 export default function RootLayout({
