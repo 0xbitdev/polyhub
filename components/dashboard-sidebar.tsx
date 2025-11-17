@@ -114,7 +114,7 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
         )}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-border/50 relative">
+        <div className="p-6 border-b border-border/50 relative py-0.5">
           <Button
             variant="ghost"
             size="icon"
@@ -142,7 +142,7 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
                   alt="PolyHub"
                   width={192}
                   height={64}
-                  className="w-full h-full object-contain block dark:hidden"
+                  className="w-full object-contain block dark:hidden h-14"
                 />
                 <Image
                   src="/images/design-mode/logo_darkmode.png"
