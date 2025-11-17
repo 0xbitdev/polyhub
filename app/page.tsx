@@ -557,7 +557,7 @@ export default function LandingPage() {
               </p>
               <div className="flex gap-3">
                 <a 
-                  href="https://twitter.com/polyhub" 
+                  href="https://x.com/PolyHubTrade" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-lg bg-accent hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
@@ -573,25 +573,7 @@ export default function LandingPage() {
                   aria-label="Discord"
                 >
                   <MessageCircle className="w-5 h-5" />
-                </a>
-                <a 
-                  href="https://t.me/polyhub" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-accent hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
-                  aria-label="Telegram"
-                >
-                  <Send className="w-5 h-5" />
-                </a>
-                <a 
-                  href="https://github.com/polyhub" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-lg bg-accent hover:bg-primary hover:text-primary-foreground flex items-center justify-center transition-colors"
-                  aria-label="GitHub"
-                >
-                  <Github className="w-5 h-5" />
-                </a>
+                </a> 
               </div>
             </div>
             
