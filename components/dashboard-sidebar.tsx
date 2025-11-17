@@ -128,7 +128,7 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
             {isCollapsed ? (
               <div className="relative w-10 h-10 overflow-hidden flex items-center justify-center">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_only_minimize%20sidebar%20light%20%26%20dark%20mode-R9T2ahPvvy9IdvsFstUTMbkMJ4bs2F.png"
+                  src="/images/design-mode/logo_only_minimize%20sidebar%20light%20%26%20dark%20mode.png"
                   alt="PolyHub"
                   width={40}
                   height={40}
@@ -138,14 +138,14 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
             ) : (
               <div className="relative w-48 h-16 overflow-hidden flex items-center justify-center">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_lighmode-uhPAR3o6itmAjT0xHUiEYOk7L36aeg.png"
+                  src="/images/design-mode/logo_lighmode(1).png"
                   alt="PolyHub"
                   width={192}
                   height={64}
                   className="w-full h-full object-contain block dark:hidden"
                 />
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_darkmode-3FpeYOibVCv8cbsZp2n71xBSm6aedZ.png"
+                  src="/images/design-mode/logo_darkmode.png"
                   alt="PolyHub"
                   width={192}
                   height={64}

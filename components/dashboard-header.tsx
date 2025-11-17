@@ -46,14 +46,14 @@ export function DashboardHeader({ isCollapsed = false }: DashboardHeaderProps) {
           <div className="flex items-center gap-4 flex-1">
             <div className="lg:hidden flex items-center gap-2">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_lighmode-uhPAR3o6itmAjT0xHUiEYOk7L36aeg.png"
+                src="/images/design-mode/logo_lighmode(1).png"
                 alt="PolyHub"
                 width={120}
                 height={32}
                 className="h-7 w-auto block dark:hidden"
               />
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_darkmode-3FpeYOibVCv8cbsZp2n71xBSm6aedZ.png"
+                src="/images/design-mode/logo_darkmode.png"
                 alt="PolyHub"
                 width={120}
                 height={32}

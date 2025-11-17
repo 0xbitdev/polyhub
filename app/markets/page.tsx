@@ -135,19 +135,19 @@ export default function MarketsPage() {
   
   const sliderImages = [
     {
-      url: "/prediction-markets-trading-dashboard.jpg",
-      title: "Trade Smart, Win Big",
-      subtitle: "Join thousands of traders making informed predictions"
+      url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/banner1-lLoguxgmSpAJHP3qDV5CEDN5fl0Z98.png",
+      title: "",
+      subtitle: ""
     },
     {
-      url: "/crypto-trading-charts-analytics.jpg",
-      title: "Real-Time Market Data",
-      subtitle: "Track live odds and market movements"
+      url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/banner2-GfcPvrgAuVCdCqZKpthvbONeweyZYf.png",
+      title: "",
+      subtitle: ""
     },
     {
-      url: "/financial-success-growth-chart.jpg",
-      title: "Your Predictions, Your Profits",
-      subtitle: "Turn your insights into earnings"
+      url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/banner3-gAISFWF9jUp4t8jsmdmp0Q11CQ8TbC.png",
+      title: "",
+      subtitle: ""
     }
   ]
 
@@ -282,85 +282,7 @@ export default function MarketsPage() {
 
         <main className="p-4 md:p-6 lg:p-8">
           {/* Layout horizontal dengan slider dan 2 card stats berjejer */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            {/* Image Slider */}
-            <div className="flex-1 lg:flex-[2] relative overflow-hidden rounded-2xl group shadow-lg">
-              <div className="relative h-32">
-                {sliderImages.map((slide, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-all duration-700 ${
-                      index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-                    }`}
-                  >
-                    <img
-                      src={slide.url || "/placeholder.svg"}
-                      alt={slide.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col justify-center p-4 md:p-5 lg:p-6">
-                      <h2 className="text-lg md:text-xl lg:text-2xl font-bold text-white mb-1">
-                        {slide.title}
-                      </h2>
-                      <p className="text-xs md:text-sm text-white/90 max-w-md">
-                        {slide.subtitle}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Slider Controls */}
-              <button
-                onClick={prevSlide}
-                className="absolute left-2 md:left-3 top-1/2 -translate-y-1/2 w-7 h-7 md:w-8 md:h-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={nextSlide}
-                className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 w-7 h-7 md:w-8 md:h-8 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white transition-all opacity-0 group-hover:opacity-100"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-
-              {/* Slider Indicators */}
-              <div className="absolute bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                {sliderImages.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all ${
-                      index === currentSlide 
-                        ? 'bg-white w-6 md:w-8' 
-                        : 'bg-white/50 hover:bg-white/75'
-                    }`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Stats cards - tetap horizontal berjejer */}
-            <div className="flex flex-row gap-4 lg:flex-1">
-              <Card className="flex-1 flex flex-col justify-between p-4 md:p-5 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border-blue-500/20 hover:shadow-lg transition-all h-32">
-                <div className="text-xs text-muted-foreground font-medium">Total Volume</div>
-                <div className="font-bold text-foreground text-lg">$24.5M</div>
-                <div className="text-xs text-emerald-500 flex items-center gap-1 font-medium py-[-10px] py-[30px-] py-[3px-] my-0">
-                  <ArrowUpRight className="w-4 h-4" />
-                  +18.2% today
-                </div>
-              </Card>
-              <Card className="flex-1 flex flex-col justify-between p-4 md:p-5 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 border-emerald-500/20 hover:shadow-lg transition-all h-32">
-                <div className="text-xs text-muted-foreground font-medium">Active Markets</div>
-                <div className="font-bold text-foreground text-lg">{apiMarkets.length}</div>
-                <div className="text-xs text-blue-500 flex items-center gap-1 font-medium">
-                  <BarChart3 className="w-4 h-4" />
-                  Live now
-                </div>
-              </Card>
-            </div>
-          </div>
+          
 
           <div className="bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl p-5 md:p-6 mb-6 shadow-sm">
             <div className="relative">

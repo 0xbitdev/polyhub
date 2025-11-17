@@ -46,14 +46,14 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_lighmode-uhPAR3o6itmAjT0xHUiEYOk7L36aeg.png"
+              src="/images/design-mode/logo_lighmode(1).png"
               alt="PolyHub"
               width={150}
               height={40}
               className="h-8 w-auto block dark:hidden"
             />
             <Image
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_darkmode-3FpeYOibVCv8cbsZp2n71xBSm6aedZ.png"
+              src="/images/design-mode/logo_darkmode.png"
               alt="PolyHub"
               width={150}
               height={40}
@@ -512,14 +512,14 @@ export default function LandingPage() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_lighmode-uhPAR3o6itmAjT0xHUiEYOk7L36aeg.png"
+                  src="/images/design-mode/logo_lighmode(1).png"
                   alt="PolyHub"
                   width={150}
                   height={40}
                   className="h-8 w-auto block dark:hidden"
                 />
                 <Image
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_darkmode-3FpeYOibVCv8cbsZp2n71xBSm6aedZ.png"
+                  src="/images/design-mode/logo_darkmode.png"
                   alt="PolyHub"
                   width={150}
                   height={40}
