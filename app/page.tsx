@@ -188,11 +188,11 @@ export default function LandingPage() {
 
               <div className="flex-none w-full md:w-2/3 lg:w-1/2">
                 <div className="flex items-center bg-muted/10 rounded-lg px-4 py-3 border border-muted/20">
-                  <div className="flex-1 text-sm break-words">PLYXXXXXXXXXXXXXXXXXXXXXXXXXXpump</div>
+                  <div className="flex-1 text-sm break-words">76jvFXu38Qjgbvfk8UYugZ4fenTAPxZ3XGbDHhbQpump</div>
                   <button
                     type="button"
                     onClick={async () => {
-                      const address = 'PLYXXXXXXXXXXXXXXXXXXXXXXXXXXpump'
+                      const address = '76jvFXu38Qjgbvfk8UYugZ4fenTAPxZ3XGbDHhbQpump'
                       try {
                         await navigator.clipboard.writeText(address)
                         toast({ title: 'Copied', description: 'Contact address copied to clipboard' })
