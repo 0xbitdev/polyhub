@@ -47,17 +47,7 @@ export function WalletConnectModal({ open, onOpenChange, onWalletSelect }: Walle
 
   const content = (
     <>
-      <div className="mb-6">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-            <Wallet className="w-6 h-6 text-white" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">Connect Wallet</h2>
-            <p className="text-sm text-muted-foreground">Choose your preferred wallet to continue</p>
-          </div>
-        </div>
-      </div>
+      {/* header is rendered by DialogHeader / DrawerHeader for accessibility */}
 
       <div className="grid grid-cols-3 gap-3 mb-6 p-4 rounded-xl bg-gradient-to-br from-blue-500/5 to-indigo-500/5 border border-blue-500/10">
         <div className="flex flex-col items-center text-center gap-1">
@@ -115,6 +105,17 @@ export function WalletConnectModal({ open, onOpenChange, onWalletSelect }: Walle
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
         <DrawerContent>
+          <DrawerHeader>
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+                <Wallet className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <DrawerTitle>Connect Wallet</DrawerTitle>
+                <p className="text-sm text-muted-foreground">Choose your preferred wallet to continue</p>
+              </div>
+            </div>
+          </DrawerHeader>
           {content}
         </DrawerContent>
       </Drawer>
@@ -125,6 +126,17 @@ export function WalletConnectModal({ open, onOpenChange, onWalletSelect }: Walle
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+              <Wallet className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <DialogTitle>Connect Wallet</DialogTitle>
+              <p className="text-sm text-muted-foreground">Choose your preferred wallet to continue</p>
+            </div>
+          </div>
+        </DialogHeader>
         {content}
       </DialogContent>
     </Dialog>

@@ -155,14 +155,14 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
   const { toast } = useToast()
   const { theme, toggleTheme } = useTheme()
 
-  // Fetch live market data from NEXT_PUBLIC_REST_API_HOST/markets/:id
+  // Fetch live market data from REST_API_HOST/markets/:id
   useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
     const fetchData = async () => {
       try {
         setLoading(true)
-        const base = normalizeBase(process.env.NEXT_PUBLIC_REST_API_HOST)
+        const base = normalizeBase(process.env.REST_API_HOST)
         if (!base) {
           // No env configured; remain on fallback
           return

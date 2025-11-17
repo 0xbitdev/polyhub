@@ -14,7 +14,7 @@ export async function GET() {
     }
 
     const base = normalizeBase(rawBase)
-    const url = `https://polylab-62d9abf7ece0.herokuapp.com/api/polymarket/categories`
+    const url = `${base}categories`
 
     // Add timeout to avoid hanging requests
     const controller = new AbortController()

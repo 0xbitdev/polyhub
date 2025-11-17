@@ -56,7 +56,7 @@ export async function GET(req: Request) {
     const base = normalizeBase(rawBase)
     const { searchParams } = new URL(req.url)
     const q = searchParams.get("q")?.trim()
-    const url = `https://polylab-62d9abf7ece0.herokuapp.com/api/polymarket/markets${q ? `?q=${encodeURIComponent(q)}` : ""}`
+    const url = `${base}markets${q ? `?q=${encodeURIComponent(q)}` : ""}`
 
     const controller = new AbortController()
     const timeout = setTimeout(() => controller.abort(), 5000)
