@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Moon, Sun, TrendingUp, Shield, Zap, BarChart3, CheckCircle2, ArrowRight, Target, Coins, Vote, Rocket, Users, DollarSign, Trophy, Play, Twitter, Send, MessageCircle, Github } from 'lucide-react'
+import { Moon, Sun, TrendingUp, Shield, Zap, BarChart3, CheckCircle2, ArrowRight, Target, Coins, Vote, Rocket, Users, DollarSign, Trophy, Play, Copy, Twitter, Send, MessageCircle, Github } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import { useTheme } from "@/components/theme-provider"
 import { WalletConnectModal } from "@/components/wallet-connect-modal"
@@ -161,6 +161,54 @@ export default function LandingPage() {
                   <div className="text-sm text-muted-foreground">{stat.label}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Address Section */}
+      <section id="contact-address" className="py-12">
+        <div className="container mx-auto px-4">
+          <div className="rounded-2xl border-2 border-green-200/40 bg-card p-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="flex-1">
+                <div className="flex items-center gap-3">
+                  <span className="text-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="opacity-90">
+                      <path d="M12 2L15 8H9L12 2Z" fill="currentColor" />
+                      <path d="M12 22L9 16H15L12 22Z" fill="currentColor" />
+                      <path d="M2 12L8 15V9L2 12Z" fill="currentColor" />
+                      <path d="M22 12L16 9V15L22 12Z" fill="currentColor" />
+                    </svg>
+                  </span>
+                  <h3 className="text-xl font-semibold">Contract Address</h3>
+                </div>
+                <p className="text-sm text-muted-foreground mt-2">Official Launch Token smart contract on Solana blockchain</p>
+              </div>
+
+              <div className="flex-none w-full md:w-2/3 lg:w-1/2">
+                <div className="flex items-center bg-muted/10 rounded-lg px-4 py-3 border border-muted/20">
+                  <div className="flex-1 text-sm break-words">PLYXXXXXXXXXXXXXXXXXXXXXXXXXXpump</div>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      const address = 'PLYXXXXXXXXXXXXXXXXXXXXXXXXXXpump'
+                      try {
+                        await navigator.clipboard.writeText(address)
+                        toast({ title: 'Copied', description: 'Contact address copied to clipboard' })
+                      } catch (err) {
+                        toast({ title: 'Copy failed', description: 'Unable to copy address' })
+                      }
+                    }}
+                    className="ml-4 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-accent/5 hover:bg-accent/10 transition-colors"
+                    aria-label="Copy contact address"
+                  >
+                    <Copy className="w-4 h-4" />
+                    <span className="text-sm">Copy</span>
+                  </button>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">Always verify the contract address before any transactions. Never trust third-party sources.</p>
+              </div>
             </div>
           </div>
         </div>
