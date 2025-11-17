@@ -28,8 +28,14 @@ export const metadata: Metadata = {
       {
         url: "/favicon.jpg",
         media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/favicon.jpg",
+        media: "(prefers-color-scheme: dark)",
       } 
     ],
+    apple: "/favicon.jpg",
+  },
 }
 
 export default function RootLayout({

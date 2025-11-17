@@ -150,7 +150,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
   const [selectedPosition, setSelectedPosition] = useState<"yes" | "no">("yes")
   const [amount, setAmount] = useState("")
   const [shares, setShares] = useState("")
-  const [currency, setCurrency] = useState<"POLYLAB" | "USD">("POLYLAB")
+  const [currency, setCurrency] = useState<"POLYHUB" | "USD">("POLYHUB")
   const [showCustomInput, setShowCustomInput] = useState(false)
   const [customPercentage, setCustomPercentage] = useState("")
   const [availablePercentages, setAvailablePercentages] = useState([10, 25, 50, 75, 100])
@@ -296,7 +296,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
     return items
   }, [id])
 
-  const walletBalance = 1000 // $POLYLAB tokens
+  const walletBalance = 1000 // $POLYHUB tokens
 
   const handleConnectWallet = () => {
     setShowWalletModal(true)
@@ -368,11 +368,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center">
             <img
-              src={
-                theme === "dark"
-                  ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/darkmode_logo-MbR7XnqXzSbFUqNW6qD2XLrZCVn2jv.png"
-                  : "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lightmnode_logo-1A7a0Am0y1qrrPyiU1md10dRxvST4x.png"
-              }
+              src={theme === "dark" ? "/images/logo-darkmode.png" : "/images/logo-lighmode.png"}
               alt="PolyHub"
               className="h-8"
             />
@@ -576,12 +572,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                     {/* Currency Toggle */}
                     <div className="flex gap-2 p-1 bg-muted rounded-lg">
                       <Button
-                        variant={currency === "POLYLAB" ? "default" : "ghost"}
+                        variant={currency === "POLYHUB" ? "default" : "ghost"}
                         size="sm"
                         className="flex-1"
-                        onClick={() => setCurrency("POLYLAB")}
+                        onClick={() => setCurrency("POLYHUB")}
                       >
-                        $POLYLAB
+                        $POLYHUB
                       </Button>
                       <Button
                         variant={currency === "USD" ? "default" : "ghost"}
@@ -596,7 +592,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                     {/* Amount Input */}
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">
-                        Amount ({currency === "POLYLAB" ? "$POLYLAB" : "USD"})
+                        Amount ({currency === "POLYHUB" ? "$POLYHUB" : "USD"})
                       </label>
                       <Input
                         type="number"
@@ -607,7 +603,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                       />
                     </div>
 
-                    {isWalletConnected && currency === "POLYLAB" && (
+                    {isWalletConnected && currency === "POLYHUB" && (
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-foreground">Quick Amount</label>
                         <div className="flex flex-wrap gap-2">
@@ -653,7 +649,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                             </div>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground">Wallet Balance: {walletBalance} $POLYLAB</p>
+                        <p className="text-xs text-muted-foreground">Wallet Balance: {walletBalance} $POLYHUB</p>
                       </div>
                     )}
 
@@ -670,7 +666,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                           <span className="text-sm text-muted-foreground">Potential Return</span>
                           <span className="text-lg font-bold text-foreground">
                             {(Number.parseFloat(shares) - Number.parseFloat(amount)).toFixed(2)}{" "}
-                            {currency === "POLYLAB" ? "$POLYLAB" : "USD"}
+                            {currency === "POLYHUB" ? "$POLYHUB" : "USD"}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -703,12 +699,12 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                     {/* Currency Toggle */}
                     <div className="flex gap-2 p-1 bg-muted rounded-lg">
                       <Button
-                        variant={currency === "POLYLAB" ? "default" : "ghost"}
+                        variant={currency === "POLYHUB" ? "default" : "ghost"}
                         size="sm"
                         className="flex-1"
-                        onClick={() => setCurrency("POLYLAB")}
+                        onClick={() => setCurrency("POLYHUB")}
                       >
-                        $POLYLAB
+                        $POLYHUB
                       </Button>
                       <Button
                         variant={currency === "USD" ? "default" : "ghost"}
@@ -723,7 +719,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                     {/* Amount Input */}
                     <div className="space-y-2">
                       <label className="text-sm font-medium text-foreground">
-                        Amount ({currency === "POLYLAB" ? "$POLYLAB" : "USD"})
+                        Amount ({currency === "POLYHUB" ? "$POLYHUB" : "USD"})
                       </label>
                       <Input
                         type="number"
@@ -734,7 +730,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                       />
                     </div>
 
-                    {isWalletConnected && currency === "POLYLAB" && (
+                    {isWalletConnected && currency === "POLYHUB" && (
                       <div className="space-y-2">
                         <label className="text-sm font-medium text-foreground">Quick Amount</label>
                         <div className="flex flex-wrap gap-2">
@@ -780,7 +776,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                             </div>
                           )}
                         </div>
-                        <p className="text-xs text-muted-foreground">Wallet Balance: {walletBalance} $POLYLAB</p>
+                        <p className="text-xs text-muted-foreground">Wallet Balance: {walletBalance} $POLYHUB</p>
                       </div>
                     )}
 
@@ -797,7 +793,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                           <span className="text-sm text-muted-foreground">Potential Return</span>
                           <span className="text-lg font-bold text-foreground">
                             {(Number.parseFloat(shares) - Number.parseFloat(amount)).toFixed(2)}{" "}
-                            {currency === "POLYLAB" ? "$POLYLAB" : "USD"}
+                            {currency === "POLYHUB" ? "$POLYHUB" : "USD"}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
@@ -825,7 +821,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
                   <div className="bg-primary/10 border border-primary/20 rounded-lg p-4 text-sm text-foreground">
                     <p className="font-medium mb-2">Connect your wallet to trade</p>
                     <p className="text-muted-foreground text-xs">
-                      You need $POLYLAB tokens in your wallet to execute trades.
+                      You need $POLYHUB tokens in your wallet to execute trades.
                     </p>
                   </div>
                 )}
@@ -857,11 +853,7 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
             <div className="col-span-1">
               <div className="flex items-center mb-4">
                 <img
-                  src={
-                    theme === "dark"
-                      ? "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/darkmode_logo-MbR7XnqXzSbFUqNW6qD2XLrZCVn2jv.png"
-                      : "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/lightmnode_logo-1A7a0Am0y1qrrPyiU1md10dRxvST4x.png"
-                  }
+                  src={theme === "dark" ? "/images/logo-darkmode.png" : "/images/logo-lighmode.png"}
                   alt="PolyHub"
                   className="h-6"
                 />
