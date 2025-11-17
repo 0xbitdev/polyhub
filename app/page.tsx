@@ -183,7 +183,7 @@ export default function LandingPage() {
                   </span>
                   <h3 className="text-xl font-semibold">Contract Address</h3>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">Official Launch Token smart contract on Solana blockchain</p>
+                <p className="text-sm text-muted-foreground mt-2">Official PolyHub smart contract on Solana blockchain</p>
               </div>
 
               <div className="flex-none w-full md:w-2/3 lg:w-1/2">
