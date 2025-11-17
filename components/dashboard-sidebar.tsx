@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, BarChart3, WalletIcon, Activity, Settings, TrendingUp, LogOut, Menu, X, Sparkles, ChevronLeft, ChevronRight, Plus } from 'lucide-react'
+import { LayoutDashboard, BarChart3, WalletIcon, Activity, Settings, TrendingUp, LogOut, Menu, X, Sparkles, ChevronLeft, ChevronRight, Plus, Wallet } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
@@ -28,6 +28,7 @@ interface DashboardSidebarProps {
 export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSidebarProps) {
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showAccountSwitcher, setShowAccountSwitcher] = useState(false)
 
   return (
     <>
@@ -128,7 +129,7 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
             {isCollapsed ? (
               <div className="relative w-10 h-10 overflow-hidden flex items-center justify-center">
                 <Image
-                  src="/images/design-mode/logo_only_minimize%20sidebar%20light%20%26%20dark%20mode.png"
+                  src="/images/design-mode/logo_only_minimize%20sidebar%20light%20%26%20dark%20mode(1).png"
                   alt="PolyHub"
                   width={40}
                   height={40}
@@ -138,18 +139,11 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
             ) : (
               <div className="relative w-48 h-16 overflow-hidden flex items-center justify-center">
                 <Image
-                  src="/images/design-mode/logo_lighmode(1).png"
+                  src="/images/design-mode/logo_darkmode(1).png"
                   alt="PolyHub"
                   width={192}
                   height={64}
-                  className="w-full object-contain block dark:hidden h-14"
-                />
-                <Image
-                  src="/images/design-mode/logo_darkmode.png"
-                  alt="PolyHub"
-                  width={192}
-                  height={64}
-                  className="w-full h-full object-contain hidden dark:block"
+                  className="w-full h-full object-contain"
                 />
               </div>
             )}
@@ -234,20 +228,34 @@ export function DashboardSidebar({ isCollapsed, onToggleCollapse }: DashboardSid
         {/* Bottom section */}
         {!isCollapsed && (
           <div className="p-4 border-t border-border/50">
-            <div className="bg-gradient-to-br from-blue-500/10 to-indigo-500/10 border border-blue-500/20 rounded-xl p-4 mb-3">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-white" />
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-foreground">Trading Tier</div>
-                  <div className="text-xs text-muted-foreground">Basic</div>
-                </div>
+            <Button 
+              variant="outline"
+              className="w-full justify-start gap-3 h-12 border-border/50 hover:border-blue-500/50 hover:bg-blue-500/10 transition-all"
+              onClick={() => setShowAccountSwitcher(!showAccountSwitcher)}
+            >
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                <Wallet className="w-4 h-4 text-white" />
               </div>
-              <Button size="sm" className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:shadow-lg">
-                Upgrade
-              </Button>
-            </div>
+              <div className="flex-1 text-left overflow-hidden">
+                <div className="text-sm font-semibold text-foreground truncate">7xKXt...9dYz</div>
+                <div className="text-xs text-muted-foreground">Switch Account</div>
+              </div>
+              <ChevronRight className={cn("w-4 h-4 text-muted-foreground transition-transform", showAccountSwitcher && "rotate-90")} />
+            </Button>
+          </div>
+        )}
+        
+        {isCollapsed && (
+          <div className="p-4 border-t border-border/50">
+            <Button 
+              variant="ghost"
+              size="icon"
+              className="w-full h-12 hover:bg-blue-500/10"
+              onClick={() => setShowAccountSwitcher(!showAccountSwitcher)}
+              title="Switch Account"
+            >
+              <Wallet className="w-5 h-5" />
+            </Button>
           </div>
         )}
       </aside>

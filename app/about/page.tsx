@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, Target, Globe, Shield, Users } from "lucide-react"
+import { TrendingUp, Target, Globe, Shield, Users } from 'lucide-react'
+import Image from "next/image"
 
 export default function AboutPage() {
   return (
@@ -8,11 +9,14 @@ export default function AboutPage() {
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold text-foreground">PredictMarket</span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logo_darkmode-3FpeYOibVCv8cbsZp2n71xBSm6aedZ.png"
+              alt="PolyHub"
+              width={120}
+              height={32}
+              className="h-8 w-auto"
+            />
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/markets" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -36,7 +40,7 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-20">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-balance mb-6 text-foreground">About PredictMarket</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-balance mb-6 text-foreground">About PolyHub</h1>
           <p className="text-lg text-muted-foreground text-balance leading-relaxed">
             We're building the world's most trusted decentralized prediction market platform, where anyone can trade on
             the outcome of future events.

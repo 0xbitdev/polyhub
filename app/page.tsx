@@ -46,18 +46,11 @@ export default function LandingPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/images/design-mode/logo_lighmode(1).png"
+              src="/images/design-mode/logo_darkmode(1).png"
               alt="PolyHub"
               width={150}
               height={40}
-              className="h-8 w-auto block dark:hidden"
-            />
-            <Image
-              src="/images/design-mode/logo_darkmode.png"
-              alt="PolyHub"
-              width={150}
-              height={40}
-              className="h-8 w-auto hidden dark:block"
+              className="h-8 w-auto"
             />
           </Link>
           
@@ -77,14 +70,6 @@ export default function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleTheme}
-              className="text-muted-foreground hover:text-foreground hover:bg-accent"
-            >
-              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-            </Button>
             <Button 
               onClick={() => setWalletModalOpen(true)}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
@@ -143,7 +128,7 @@ export default function LandingPage() {
               </span>
             </h1>
             <p className="text-muted-foreground mb-10 leading-relaxed max-w-3xl mx-auto text-lg">
-              Trade predictions on politics, sports, crypto, and more. Transparent, decentralized, and powered by blockchain technology.
+              Trade predictions on politics, sports, crypto, and more. Transparent, decentralized, and powered by blockchain technology with Zero-Knowledge privacy protection.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
               <Link href="/markets">
@@ -231,7 +216,7 @@ export default function LandingPage() {
           
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: Shield, title: "Secure Platform", desc: "Your funds and data are protected with industry-standard security practices" },
+              { icon: Shield, title: "ZK-Powered Privacy", desc: "Advanced Zero-Knowledge (ZK) technology ensures your transactions remain private while maintaining full transparency and security" },
               { icon: Zap, title: "Lightning Fast", desc: "Powered by Solana for instant transaction processing and low fees" },
               { icon: BarChart3, title: "Real-Time Analytics", desc: "Advanced charts and statistics to make informed trading decisions" },
               { icon: Coins, title: "Deep Liquidity", desc: "Active markets with deep liquidity pools for seamless trading" },
@@ -437,8 +422,8 @@ export default function LandingPage() {
                   a: "Prediction markets allow you to buy and sell shares representing the outcome of future events. If your prediction is correct, you earn profits. Share prices reflect the collective wisdom of all traders."
                 },
                 {
-                  q: "Is PolyHub secure?",
-                  a: "Yes, PolyHub is built with security best practices. All transactions are transparent and your wallet remains in your control at all times."
+                  q: "How secure are my transactions on PolyHub?",
+                  a: "PolyHub uses advanced Zero-Knowledge (ZK) technology to ensure maximum security and privacy. Your transaction details remain private while still being verifiable on the blockchain. All funds are secured by smart contracts and your wallet remains in your control at all times. ZK proofs guarantee that your trading activity is protected without compromising the transparency of the market."
                 },
                 {
                   q: "What wallets are supported?",
@@ -512,18 +497,11 @@ export default function LandingPage() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Image
-                  src="/images/design-mode/logo_lighmode(1).png"
+                  src="/images/design-mode/logo_darkmode(1).png"
                   alt="PolyHub"
                   width={150}
                   height={40}
-                  className="h-8 w-auto block dark:hidden"
-                />
-                <Image
-                  src="/images/design-mode/logo_darkmode.png"
-                  alt="PolyHub"
-                  width={150}
-                  height={40}
-                  className="h-8 w-auto hidden dark:block"
+                  className="h-8 w-auto"
                 />
               </div>
               <p className="text-sm text-muted-foreground mb-4">
@@ -582,10 +560,10 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4">Resources</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-primary transition-colors">Documentation</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">API</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Support</a></li>
+                <li><Link href="/documentation" className="hover:text-primary transition-colors">Documentation</Link></li>
+                <li><Link href="/api-docs" className="hover:text-primary transition-colors">API</Link></li>
+                <li><a href="#faq" className="hover:text-primary transition-colors">FAQ</a></li>
+                <li><Link href="/support" className="hover:text-primary transition-colors">Support</Link></li>
               </ul>
             </div>
             
@@ -593,9 +571,9 @@ export default function LandingPage() {
               <h4 className="font-semibold mb-4">Company</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+                <li><Link href="/blog" className="hover:text-primary transition-colors">Blog</Link></li>
+                <li><Link href="/careers" className="hover:text-primary transition-colors">Careers</Link></li>
+                <li><Link href="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
               </ul>
             </div>
           </div>

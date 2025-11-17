@@ -46,18 +46,11 @@ export function DashboardHeader({ isCollapsed = false }: DashboardHeaderProps) {
           <div className="flex items-center gap-4 flex-1">
             <div className="lg:hidden flex items-center gap-2">
               <Image
-                src="/images/design-mode/logo_lighmode(1).png"
+                src="/images/design-mode/logo_darkmode(1).png"
                 alt="PolyHub"
                 width={120}
                 height={32}
-                className="h-7 w-auto block dark:hidden"
-              />
-              <Image
-                src="/images/design-mode/logo_darkmode.png"
-                alt="PolyHub"
-                width={120}
-                height={32}
-                className="h-7 w-auto hidden dark:block"
+                className="h-7 w-auto"
               />
             </div>
             
@@ -71,14 +64,6 @@ export function DashboardHeader({ isCollapsed = false }: DashboardHeaderProps) {
               </Badge>
             </Button>
             
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              onClick={toggleTheme} 
-              className="rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent"
-            >
-              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-            </Button>
             
             <Button 
               onClick={handleConnectWallet} 
