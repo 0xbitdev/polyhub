@@ -6,6 +6,7 @@ import "./globals.css"
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 import { WalletProvider } from "@/components/wallet-provider"
+import { MarketProvider } from "@/context/market"
 
 const spaceGrotesk = Space_Grotesk({ 
   subsets: ["latin"], 
@@ -35,8 +36,10 @@ export default function RootLayout({
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <ThemeProvider defaultTheme="dark" forcedTheme="dark">
           <WalletProvider>
-            {children}
-            <Toaster />
+            <MarketProvider>
+              {children}
+              <Toaster />
+            </MarketProvider>
           </WalletProvider>
         </ThemeProvider>
         <Analytics />

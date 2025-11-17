@@ -9,6 +9,9 @@ import { Badge } from "@/components/ui/badge"
 import { Search, TrendingUp, Flame, Sparkles, Clock, BarChart3, ArrowUpRight, Grid3x3, List, ChevronLeft, ChevronRight } from 'lucide-react'
 import { DashboardSidebar } from "@/components/dashboard-sidebar"
 import { DashboardHeader } from "@/components/dashboard-header"
+import { fetchGammaEvents, mapPolymarketToUi } from "@/lib/polymarket"
+import { useMarket } from "@/context/market"
+import { useRouter } from "next/navigation"
 
 // No local fallback markets: data must come from API
 
@@ -23,7 +26,7 @@ const sportsEvents = [
     homeTeam: { name: "Kansas City Chiefs", abbr: "KC", record: "8-2", logo: "🏈" },
     awayTeam: { name: "Buffalo Bills", abbr: "BUF", record: "7-3", logo: "🏈" },
     homeOdds: 48,
-    awayOdds: 52,
+    awayOdds: 42,
     spread: "BUF -2.5",
     total: "O 48.5",
     priceChange: 5,
@@ -37,7 +40,7 @@ const sportsEvents = [
     homeTeam: { name: "Los Angeles Lakers", abbr: "LAL", record: "12-8", logo: "🏀" },
     awayTeam: { name: "Boston Celtics", abbr: "BOS", record: "15-5", logo: "🏀" },
     homeOdds: 45,
-    awayOdds: 55,
+    awayOdds: 52,
     spread: "BOS -3.5",
     total: "O 225.5",
     priceChange: -3,
@@ -100,30 +103,7 @@ const sportsEvents = [
   },
 ]
 
-const DUMMY_MARKETS = [
-  {
-    id: "will-bitcoin-reach-100k-2025",
-    title: "Will Bitcoin reach $100,000 by end of 2025?",
-    category: "Crypto",
-    image: "/bitcoin-cryptocurrency-chart.jpg",
-    volume: "$2.4M",
-    endDate: "Dec 31, 2025",
-    yesPrice: 68,
-    noPrice: 32,
-    priceChange: 5
-  },
-  {
-    id: "ai-replace-jobs-2024",
-    title: "Will AI replace more than 10% of white collar jobs by 2024?",
-    category: "Technology",
-    image: "/ai-robot.png",
-    volume: "$1.8M",
-    endDate: "Dec 31, 2024",
-    yesPrice: 45,
-    noPrice: 55,
-    priceChange: -3
-  }
-]
+// No local dummy markets: always load from Polymarket index
 
 export default function MarketsPage() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -169,8 +149,8 @@ export default function MarketsPage() {
   const [apiCategories, setApiCategories] = useState([])
   const [categoriesLoading, setCategoriesLoading] = useState(false)
 
-  const [apiMarkets, setApiMarkets] = useState(DUMMY_MARKETS) // Initialize with dummy data
-  const [marketsLoading, setMarketsLoading] = useState(false)
+  const [apiMarkets, setApiMarkets] = useState<any[]>([]) // Primary source: Polymarket index
+  const [marketsLoading, setMarketsLoading] = useState(true)
 
   const filteredMarkets = apiMarkets.filter((market) => {
     const matchesSearch =
@@ -241,25 +221,25 @@ export default function MarketsPage() {
 
   useEffect(() => {
     let cancelled = false
-    const controller = new AbortController()
     const timer = window.setTimeout(async () => {
       try {
         setMarketsLoading(true)
-        const q = searchQuery.trim()
-        const url = q ? `/api/markets?q=${encodeURIComponent(q)}&closed=false&order=volume&limit=100&offset=1&active=true&archived=false&ascending=false` : "/api/markets?closed=false&order=volume&limit=100&offset=1&active=true&archived=false&ascending=false"
-        const res = await fetch(url, { signal: controller.signal })
-        if (!res.ok) throw new Error(`Failed to fetch markets: ${res.status}`)
-        const data = await res.json()
-        const list = Array.isArray(data) ? data : []
-        if (!cancelled) setApiMarkets(list.length > 0 ? list : DUMMY_MARKETS)
-      } catch (err: any) {
-        const msg = String(err?.message || err)
-        const name = String((err && (err as any).name) || "")
-        const isAbort = controller.signal.aborted || name === "AbortError" || msg.toLowerCase().includes("abort")
-        if (!isAbort) {
-          console.error("Error loading markets:", err)
-          if (!cancelled) setApiMarkets(DUMMY_MARKETS)
+
+        // Primary source: Polymarket Gamma API
+        const pm = await fetchGammaEvents()
+        let list = Array.isArray(pm) ? pm.map(mapPolymarketToUi) : []
+
+        // Client-side search filtering (if query present)
+        const q = searchQuery.trim().toLowerCase()
+        if (q) {
+          list = list.filter((m: any) => (String(m.title || "") + " " + String(m.category || "")).toLowerCase().includes(q))
         }
+
+        if (!cancelled) setApiMarkets(list)
+      } catch (err: any) {
+        // Avoid noisy error output for expected network/CORS failures — warn instead
+        console.warn("Error loading markets from Gamma API:", String(err?.message ?? err ?? ""))
+        if (!cancelled) setApiMarkets([])
       } finally {
         if (!cancelled) setMarketsLoading(false)
       }
@@ -267,11 +247,20 @@ export default function MarketsPage() {
     return () => {
       cancelled = true
       window.clearTimeout(timer)
-      if (!controller.signal.aborted) {
-        try { controller.abort("search-cancel") } catch {}
-      }
     }
   }, [searchQuery])
+
+  const { setSelectedMarket } = useMarket()
+  const router = useRouter()
+
+  const handleClickMarket = (market: any) => (e?: any) => {
+    // store selected market in context and navigate
+    try {
+      setSelectedMarket(market)
+    } catch {}
+    // navigate
+    router.push(`/markets/${market.id}`)
+  }
 
   return (
     <div className="flex min-h-screen bg-gradient-to-br from-background via-background to-blue-500/5">
@@ -386,7 +375,7 @@ export default function MarketsPage() {
                 ))}
 
               {!marketsLoading && filteredMarkets.map((market) => (
-                <Link key={market.id} href={`/markets/${market.id}`}>
+                <a key={market.id} onClick={handleClickMarket(market)} className="block">
                   <Card className="group overflow-hidden rounded-2xl border-border/50 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all cursor-pointer h-full bg-card/50">
                     <div className="relative h-40 w-full overflow-hidden">
                       <img
@@ -394,11 +383,7 @@ export default function MarketsPage() {
                         alt={market.title}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                      
-                      <Badge variant="secondary" className="absolute top-2 left-2 bg-background/90 backdrop-blur-sm rounded-full">
-                        {market.category}
-                      </Badge>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div> 
 
                       {market.priceChange !== undefined && (
                         <Badge
@@ -454,13 +439,13 @@ export default function MarketsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </Link>
+                </a>
               ))}
             </div>
           ) : (
             <div className="space-y-4">
               {!marketsLoading && filteredMarkets.map((market) => (
-                <Link key={market.id} href={`/markets/${market.id}`}>
+                <a key={market.id} onClick={handleClickMarket(market)} className="block">
                   <Card className="group rounded-2xl border-border/50 hover:border-blue-500/50 hover:shadow-lg transition-all cursor-pointer bg-card/50">
                     <CardContent className="p-4">
                       <div className="flex gap-4">
@@ -492,7 +477,7 @@ export default function MarketsPage() {
                       </div>
                     </CardContent>
                   </Card>
-                </Link>
+                </a>
               ))}
             </div>
           )}

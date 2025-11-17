@@ -63,10 +63,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const msg = String(err?.message || "")
       const is403 = msg.includes("403") || msg.toLowerCase().includes("forbidden")
       toast({
-        title: "Gagal mengambil saldo",
+        title: "Failed to fetch balance",
         description: is403
-          ? "Akses RPC resmi Solana ditolak (403). Silakan coba lagi nanti."
-          : "Tidak dapat mengambil saldo SOL saat ini.",
+          ? "Official Solana RPC access denied (403). Please try again later."
+          : "Unable to fetch SOL balance at this time.",
         variant: "destructive",
       })
     }
@@ -78,8 +78,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         const provider = window?.solana
         if (!provider?.isPhantom) {
           toast({
-            title: "Phantom tidak ditemukan",
-            description: "Silakan install Phantom Wallet terlebih dahulu.",
+            title: "Phantom not found",
+            description: "Please install Phantom Wallet first.",
             variant: "destructive",
           })
           return
@@ -98,8 +98,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         const provider = window?.solflare
         if (!provider?.isSolflare) {
           toast({
-            title: "Solflare tidak ditemukan",
-            description: "Silakan install Solflare Wallet terlebih dahulu.",
+            title: "Solflare not found",
+            description: "Please install Solflare Wallet first.",
             variant: "destructive",
           })
           return
@@ -118,8 +118,8 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         const eth = window?.ethereum
         if (!eth?.isMetaMask) {
           toast({
-            title: "MetaMask tidak ditemukan",
-            description: "Silakan install MetaMask terlebih dahulu.",
+            title: "MetaMask not found",
+            description: "Please install MetaMask first",
             variant: "destructive",
           })
           return
@@ -129,9 +129,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         const SNAP_ID = process.env.NEXT_PUBLIC_SOLANA_SNAP_ID // e.g., 'npm:@solana/snap'
         if (!SNAP_ID) {
           toast({
-            title: "Butuh MetaMask Snap",
+            title: "MetaMask Snap required",
             description:
-              "Konfigurasi NEXT_PUBLIC_SOLANA_SNAP_ID untuk meminta Snap Solana via MetaMask, lalu coba lagi.",
+              "Configure NEXT_PUBLIC_SOLANA_SNAP_ID to request the Solana Snap via MetaMask, then try again.",
             variant: "destructive",
           })
           // Still bring up MetaMask to show something
@@ -147,14 +147,14 @@ export function WalletProvider({ children }: { children: ReactNode }) {
             params: { [SNAP_ID]: {} },
           })
           toast({
-            title: "Meminta Snap Solana",
-            description: "Lihat jendela MetaMask untuk melanjutkan instalasi Snap.",
+            title: "Requesting Solana Snap",
+            description: "Check the MetaMask popup to continue Snap installation.",
           })
         } catch (e: any) {
           const msg = typeof e?.message === "string" ? e.message : ""
           toast({
-            title: "Gagal meminta Snap",
-            description: msg || "Tidak dapat memulai instalasi Snap.",
+            title: "Failed to request Snap",
+            description: msg || "Unable to start Snap installation.",
             variant: "destructive",
           })
         }
@@ -166,15 +166,15 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       const code = err?.code ?? err?.error?.code
       if (code === 4001 || msg.includes("User rejected") || msg.toLowerCase().includes("cancel")) {
         toast({
-          title: "Koneksi dibatalkan",
-          description: "Anda membatalkan permintaan koneksi wallet.",
+          title: "Connection cancelled",
+          description: "You cancelled the wallet connection request.",
           variant: "destructive",
         })
       } else {
         console.error("Wallet connect error:", err)
         toast({
-          title: "Gagal menghubungkan wallet",
-          description: msg || "Terjadi kesalahan saat menghubungkan wallet.",
+          title: "Failed to connect wallet",
+          description: msg || "An error occurred while connecting the wallet.",
           variant: "destructive",
         })
       }

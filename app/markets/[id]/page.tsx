@@ -14,6 +14,8 @@ import { useTheme } from "@/components/theme-provider"
 import { WalletConnectModal } from "@/components/wallet-connect-modal"
 import { useWallet } from "@/components/wallet-provider"
 import { WalletStatus } from "@/components/wallet-status"
+import { fetchGammaEvents, mapPolymarketToUi } from "@/lib/polymarket"
+import { useMarket } from "@/context/market"
 
 // Mock market data (fallback)
 const marketData = {
@@ -124,6 +126,7 @@ function mulberry32(seed: number) {
 // In Next.js 16, params is async; unwrap with React.use()
 export default function MarketDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const { selectedMarket, clearSelectedMarket } = useMarket()
   // Initial fallback state from mock
   const initial: UIMarket = {
     id,
@@ -162,68 +165,72 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
     const fetchData = async () => {
       try {
         setLoading(true)
-        const base = normalizeBase(process.env.REST_API_HOST)
-        if (!base) {
-          // No env configured; remain on fallback
-          return
-        }
-        const url = `${base}markets/${encodeURIComponent(id)}`
-        const res = await fetch(url, { signal: controller.signal })
-        if (!res.ok) return
-        const json = await res.json()
-        const m: any = Array.isArray(json)
-          ? json[0]
-          : Array.isArray(json?.data)
-          ? json.data[0] ?? json.data
-          : json
-        if (!m) return
-
-        // Prefer outcomes/outcomePrices if present
-        const outcomes = parseMaybeJsonArray(m?.outcomes)
-        const outcomePrices = parseMaybeJsonArray(m?.outcomePrices)
-        const findIndex = (label: string) => outcomes.findIndex((o) => String(o).trim().toLowerCase() === label)
-        const idxYes = findIndex("yes")
-        const idxNo = findIndex("no")
-
-        let yesPct: number | undefined
-        let noPct: number | undefined
-        if (idxYes >= 0 && idxYes < outcomePrices.length) yesPct = priceToPercent(outcomePrices[idxYes])
-        if (idxNo >= 0 && idxNo < outcomePrices.length) noPct = priceToPercent(outcomePrices[idxNo])
-
-        // Fallback to tokens
-        if (typeof yesPct === "undefined" || typeof noPct === "undefined") {
-          const tokens = Array.isArray(m?.tokens) ? m.tokens : []
-          if (tokens.length >= 2 && typeof tokens[0]?.price !== "undefined" && typeof tokens[1]?.price !== "undefined") {
-            yesPct = typeof yesPct === "undefined" ? priceToPercent(tokens[0].price) : yesPct
-            noPct = typeof noPct === "undefined" ? priceToPercent(tokens[1].price) : noPct
+        // If a market object was selected from the list, use it directly
+        if (selectedMarket && String(selectedMarket.id).toLowerCase() === String(id).toLowerCase()) {
+          if (!cancelled) {
+            const mapped = mapPolymarketToUi(selectedMarket)
+            const ui: UIMarket = {
+              id: mapped.id ?? id,
+              title: mapped.title ?? initial.title,
+              category: mapped.category ?? initial.category,
+              description: mapped.description ?? initial.description ?? "",
+              volume: mapped.volume ?? initial.volume,
+              yesPrice: typeof mapped.yesPrice === "number" ? mapped.yesPrice : initial.yesPrice,
+              noPrice: typeof mapped.noPrice === "number" ? mapped.noPrice : initial.noPrice,
+              endDate: mapped.endDate ?? initial.endDate,
+              liquidity: mapped.liquidity ?? initial.liquidity,
+              traders: mapped.traders ?? null,
+              image: mapped.image ?? initial.image ?? null,
+              change24hPct: typeof mapped.change24hPct === "number" ? Number(mapped.change24hPct.toFixed?.(1) ?? mapped.change24hPct) : 0,
+            }
+            setMarket(ui)
+            setLoading(false)
+            return
           }
         }
 
-        const yes = typeof m?.yesPrice === "number" ? m.yesPrice : typeof yesPct === "number" ? yesPct : priceToPercent(m?.pYes ?? m?.probYes ?? 0.5)
-        const no = typeof m?.noPrice === "number" ? m.noPrice : typeof noPct === "number" ? noPct : Math.max(0, 100 - yes)
-
-        // Numeric aggregates
-        const volNum = Number(m?.volumeNum ?? m?.volumeClob ?? m?.volume ?? m?.events?.[0]?.volume ?? 0)
-        const liqNum = Number(m?.liquidityNum ?? m?.liquidityClob ?? m?.liquidity ?? m?.events?.[0]?.liquidity ?? 0)
-        const tradersNum = (m?.traders ?? m?.traderCount ?? m?.events?.[0]?.traders)
-
-        const changePct = toPercentChange(m?.oneDayPriceChange ?? m?.change24h ?? m?.changePercent ?? 0)
-
-        const ui: UIMarket = {
-          id: String(m?.id ?? m?.slug ?? m?.marketId ?? m?.market_slug ?? id),
-          title: String(m?.title ?? m?.question ?? m?.label ?? initial.title),
-          category: String(m?.category?.label ?? m?.category ?? m?.tags?.[0] ?? initial.category),
-          description: String(m?.description ?? initial.description ?? ""),
-          volume: formatCurrencyShort(volNum),
-          yesPrice: Math.max(0, Math.min(100, Number(yes) || 0)),
-          noPrice: Math.max(0, Math.min(100, Number(no) || 0)),
-          endDate: toShortDate(m?.endDate ?? m?.closeTime ?? m?.endTime ?? m?.resolutionTime ?? m?.end_date_iso),
-          liquidity: formatCurrencyShort(liqNum),
-          traders: Number.isFinite(Number(tradersNum)) ? Number(tradersNum) : null,
-          image: m?.image ?? m?.icon ?? initial.image ?? null,
-          change24hPct: Number(changePct.toFixed(1)),
+        // Primary source: Polymarket Gamma API
+        let m: any = null
+        try {
+          const pm = await fetchGammaEvents()
+          if (Array.isArray(pm) && pm.length > 0) {
+            const found = pm.find((x: any) => {
+              const candidates = [x?.id, x?.slug, x?.marketId, x?.market_slug, x?._id, x?.hash]
+              return candidates.some((c) => String(c ?? "").toLowerCase() === String(id).toLowerCase())
+            })
+            if (found) m = found
+          }
+        } catch (err) {
+          m = null
         }
-        if (!cancelled) setMarket(ui)
+
+        // (No REST API fallback) - primary source is Polymarket index.json
+
+        if (!m) return
+
+        // If the raw polymarket item is present, map it to UI shape
+        let ui: UIMarket | null = null
+        try {
+          const mapped = mapPolymarketToUi(m)
+          ui = {
+            id: mapped.id ?? id,
+            title: mapped.title ?? initial.title,
+            category: mapped.category ?? initial.category,
+            description: mapped.description ?? initial.description ?? "",
+            volume: mapped.volume ?? initial.volume,
+            yesPrice: typeof mapped.yesPrice === "number" ? mapped.yesPrice : initial.yesPrice,
+            noPrice: typeof mapped.noPrice === "number" ? mapped.noPrice : initial.noPrice,
+            endDate: mapped.endDate ?? initial.endDate,
+            liquidity: mapped.liquidity ?? initial.liquidity,
+            traders: mapped.traders ?? null,
+            image: mapped.image ?? initial.image ?? null,
+            change24hPct: typeof mapped.change24hPct === "number" ? Number(mapped.change24hPct.toFixed?.(1) ?? mapped.change24hPct) : 0,
+          }
+        } catch (err) {
+          ui = null
+        }
+
+        if (ui && !cancelled) setMarket(ui)
       } catch (err: any) {
         // Ignore abort-related errors (including custom reason from abort("unmount"))
         const msg = String(err?.message ?? err ?? "")
@@ -256,14 +263,36 @@ export default function MarketDetailPage({ params }: { params: Promise<{ id: str
   // Build a deterministic recent activity feed based on id
   const recentActivity = useMemo(() => {
     const seed = mulberry32(hashStringToInt(id))
-    const items = Array.from({ length: 4 }).map((_, idx) => {
-      // address-like string
+
+    const actions = ["Bought", "Sold", "Bid", "Offered", "Matched"]
+    const items = Array.from({ length: 12 }).map((_, idx) => {
+      const rnd = seed()
+      // address-like short id
       const addr = (seed().toString(36) + seed().toString(36)).replace(/[^a-z0-9]/gi, "").slice(2, 9)
-      const minutes = Math.floor(seed() * 60)
+      // minutes ago (0 = just now)
+      const minutes = Math.floor(rnd * 240) // up to 4 hours
       const side = seed() > 0.5 ? "YES" : "NO"
-      const amount = Math.floor(seed() * 1000)
-      return { key: idx, addr, minutes, side, amount }
+      const action = actions[Math.floor(seed() * actions.length)]
+      const amount = Math.max(1, Math.floor(seed() * 5000))
+      // price per share (simulate cents) based on a random near 50 with small variance
+      const price = Math.max(1, Math.round((40 + seed() * 40) * 100) / 100)
+      // make some items larger to look like big trades
+      const large = seed() > 0.9
+      const displayAmount = large ? amount * 10 : amount
+      return {
+        key: idx,
+        addr,
+        minutes,
+        side,
+        amount: displayAmount,
+        action,
+        price,
+        large,
+      }
     })
+
+    // sort by most recent first
+    items.sort((a, b) => a.minutes - b.minutes)
     return items
   }, [id])
 
