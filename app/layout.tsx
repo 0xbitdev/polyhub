@@ -22,7 +22,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "PolyHub - Decentralized Prediction Markets",
-  description: "Trade on future outcomes with transparent blockchain-powered prediction markets",  
+  description: "Trade on future outcomes with transparent blockchain-powered prediction markets.",  
   icons: {
     icon: [
       {
